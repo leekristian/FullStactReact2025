@@ -1,0 +1,123 @@
+
+section {
+    display: block;
+}
+
+h2 {
+    font-family: "Open Sans", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#about {
+    text-align: center;
+    height: 350px;
+}
+
+.contact_form {
+    display: flex;
+    justify-content: center;
+}
+
+.footer_site {
+    /* display: flex; */
+    text-align: center;
+}
+
+.skills_list {
+    display: flex;
+    justify-content: center;
+}
+
+.skills_list li {
+    /* background-color: rgb(255, 253, 248); */
+    list-style-type: none;
+    width: 200px;
+    height: 100px;
+}
+
+nav {
+    display: flex;
+}
+
+nav div {
+    margin-left: 900px;
+    justify-content: right;
+    font-size: small;
+    font-family: "Open Sans", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
+
+.site_header {
+    justify-content: left;
+    /* background-color: #49166D; */
+    /* align-items: center; */
+}
+
+.header_nav {
+    display: flex;
+}
+
+.header_nav li {
+    list-style-type: none;
+    margin: 3px;
+}
+
+.header_nav a {
+    color: rgb(31, 31, 31);
+    /* text-transform: uppercase; */
+    text-decoration: none;
+    font-size: small;
+    font-family: "Open Sans", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
+.header_nav a:hover {
+    text-decoration: underline;
+}
+
+.telus {
+    color: blueviolet;
+}
+
+.card {
+    /* background-color: rgb(85, 85, 85); */
+    color: black;
+    border: 1.0px dotted black;
+    border-radius: 3%;
+    width: 33.3%;
+    height: 300px;
+    text-align: center;
+
+    text-decoration: none;
+    font-size: medium;
+    font-family: "Open Sans", serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.card h3 {
+    /* color: rgba(54, 141, 141, 0.63); */
+}
