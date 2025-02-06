@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />        
+        <title>Task Management Application</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <!-- <script src="js/task.js"></script> -->
+    </head>
+    <body>
+        <header>
+            <h1>Javascript Application</h1>
+        </header>
+        <section id="main-form">
+            <h2>Add Task</h2>
+            <div class="form-container">
+                <form>
+                    <input id="task-name" type="text" name="taskname" value="Task Name">
+                    <input id="task-desc" type="text" name="taskdesc" value="Description">
+                    <input id="task-date" type="date" name="taskdate" >
+                    <input id="add-button" type="button" value="Add Task" onclick="addTask()">
+                </form>
+            </div>            
+        </section>
+        <section id="filter-section">
+
+        </section>
+        <section id="tasks-section">
+            <h2>Task List</h2>
+                <!-- This is the list that gets populated when user adds task -->
+                <!-- <ul id="task-list"></ul> -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-table">
+                        <!-- tasks will be displayed here -->
+                    </tbody>
+                </table>
+        </section>
+
+        <script>
+            const tblBody = document.getElementById('task-table');
+
+            loadTasks();
+
+            function loadTasks() {
+                
+                const storageTasks = localStorage.getItem('tasks');
+                console.log("retrieving storage tasks ", storageTasks);
+
+                if(storageTasks != null) {
+                    tblBody.innerHTML = "";
+                    const tasks = JSON.parse(storageTasks);
+
+                    // Iterate through the stored tasks
+                    tasks.forEach(task => {
+                        const row = tblBody.insertRow();
+
+                        /*  Refactor this logic
+                            const name = row.insertCell();
+                            const desc = row.insertCell();
+                            const date = row.insertCell();
+
+                            name.textContent = task.taskName;
+                            desc.textContent = task.description;
+                            date.textContent = task.dueDate;
+                        */
+
+                        row.insertCell().textContent = task.taskName;
+                        row.insertCell().textContent = task.description;
+                        row.insertCell().textContent = task.dueDate;
+
+                        const actions = row.insertCell();
+
+                        const edtBtn = document.createElement('button');
+                        edtBtn.textContent = "Edit";
+                        edtBtn.addEventListener('click', function() {
+                            editRow(row);
+                        });
+
+                        const delBtn = document.createElement('button');
+                        delBtn.textContent = "Delete";
+                        delBtn.addEventListener('click', function() {
+                            deleteRow(row);
+                        });
+
+                        actions.appendChild(edtBtn);
+                        actions.appendChild(delBtn);
+                    });
+                }
+            }
+
+            function editRow(row) {
+                const name = row.cells[0];
+                const desc = row.cells[1];
+                const date = row.cells[2];
+
+                name.contentEditable = true;
+                desc.contentEditable = true;
+                date.contentEditable = true;
+
+                name.focus(); // once edit is triggered set focus on task name field
+
+                name.addEventListener('blur', function() {
+                    updateRow(row);
+                });
+
+                desc.addEventListener('blur', function() {
+                    updateRow(row);
+                });
+
+                date.addEventListener('blur', function() {
+                    updateRow(row);
+                });
+            }
+
+            function updateRow(row) {
+                const taskData = [];
+
+                for(let i = 0; i < tblBody.rows.length; i++) {
+                    const data = tblBody.rows[i];
+                    console.log("this is from tblbody.rows", data);
+                    taskData.push({
+                        taskName: row.cells[0].textContent,
+                        description: row.cells[1].textContent,
+                        dueDate: row.cells[2].textContent
+                    });
+
+                    console.log(taskData[i]);
+                    console.log(typeof(taskData[i]));
+                    console.log(taskData);
+                    console.log(typeof(taskData));
+                }
+
+                const rowData = {
+                    taskName: row.cells[0].textContent,
+                    description: row.cells[1].textContent,
+                    dueDate: row.cells[2].textContent
+                }
+
+                const rowIndex = Array.from(tblBody.rows).indexOf(row);
+                console.log("this is from Array.from(tblBody.rows).indexOf(row)", rowIndex);
+
+                taskData[rowIndex] = rowData;
+
+                localStorage.setItem('tasks', JSON.stringify(taskData)); // note must stringify to convert object to JSON string when storing
+            }
+
+            function addTask() {
+                const row = tblBody.insertRow();
+
+                row.insertCell().textContent = document.getElementById('task-name').value;
+                row.insertCell().textContent = document.getElementById('task-desc').value;
+                row.insertCell().textContent = document.getElementById('task-date').value;
+
+                const actions = row.insertCell();
+                console.log("this is the insert cell", actions);
+
+                const edtBtn = document.createElement('button');
+                edtBtn.textContent = "Edit";
+                edtBtn.addEventListener('click', function() {
+                    editRow(row);
+                });
+
+                const delBtn = document.createElement('button');
+                delBtn.textContent = "Delete";
+                delBtn.addEventListener('click', function() {
+                    deleteRow(row);
+                });
+
+                actions.appendChild(edtBtn);
+                actions.appendChild(delBtn);   
+
+                saveTask();
+            }
+
+            function deleteRow(row) {
+                console.log("row to delete ", row);
+                tblBody.removeChild(row);
+                saveTask();
+            }
+
+            function saveTask() {
+                const task = [];
+
+                // iterate through the table rows
+                for(let i = 0; i < tblBody.rows.length; i++) {
+                    const rows = tblBody.rows[i];
+                    // Extract data from cells
+                    const name = rows.cells[0].textContent;
+                    const desc = rows.cells[1].textContent;
+                    const dueDate = rows.cells[2].textContent;
+                    // Add data to the array
+                    task.push({ taskName: name, description: desc, dueDate: dueDate });
+                    console.log(task);
+                }
+
+                localStorage.setItem('tasks', JSON.stringify(task)); // note must stringify to convert object to JSON string when storing
+            }
+
+/*
+            function addTask() {
+                // const taskItem = document.createElement('li');
+                const tblRow = document.createElement('tr');
+    
+                tblBody.appendChild(tblRow);
+                const tdName = document.createElement('td');
+                tdName.innerHTML = document.getElementById('task-name').value;
+
+                const tdDesc = document.createElement('td');
+                tdDesc.innerHTML = document.getElementById('task-desc').value;
+
+                const tdDate = document.createElement('td');
+                tdDate.innerHTML = document.getElementById('task-date').value;
+
+                tblRow.appendChild(tdName);
+                tblRow.appendChild(tdDesc);
+                tblRow.appendChild(tdDate);
+
+                const tdActions = document.createElement('td');
+                addTaskButtons(tdActions);
+
+                tblRow.appendChild(tdActions);
+                // var elementid = document.getElementsByTagName("td").length
+                // newel.setAttribute('id',elementid);   
+                
+                saveTask();
+            }
+            */
+
+            // function addTaskButtons(td) {
+            //     const row = td.parentNode;
+            //     console.log(row);
+
+            //     const editBtn = document.createElement('button');
+            //     editBtn.textContent = 'Edit';
+            //     editBtn.addEventListener('click', () => function(td) {
+            //         console.log(td);
+            //     }); 
+
+            //     const delBtn = document.createElement('button');
+            //     delBtn.textContent = 'Delete';
+            //     delBtn.addEventListener('click', () => function(td) {
+            //         // get Row of the td
+            //         const row = td.parentNode;
+            //         console.log("row");
+
+            //         // remove row
+            //         row.remove;
+            //     });
+
+            //     td.appendChild(editBtn);
+            //     td.appendChild(delBtn);
+            // }
+
+        </script>
+    </body>
+</html>
