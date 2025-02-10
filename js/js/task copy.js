@@ -33,9 +33,30 @@ function inputFilter() {
 function optFilter() {
     const selected = document.querySelector('input[name="task-status"]:checked').value;
     const tblRows = tblBody.querySelectorAll('tr');
+    let searchStr = searchInput.value.toUpperCase();
 
     tblRows.forEach(row => {
+        const nameMatch = row.cells[0].textContent.toUpperCase().includes(searchStr);
+        const descMatch = row.cells[1].textContent.toUpperCase().includes(searchStr);
         const status  = row.getAttribute('class');        
+
+        console.log(searchStr);
+
+        if(nameMatch) {
+            console.log("here true");
+            if(selected === 'all' || selected === status){
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        } else {
+            console.log("here false");
+            if(selected === 'all' || selected === status){
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
 
         if(selected === 'all' || selected === status){
             row.style.display = "";
