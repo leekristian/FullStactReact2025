@@ -5,31 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />        
         <title>Task Management Application</title>
         <link rel="stylesheet" href="css/style.css" />        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <header>
-            <h1>Javascript Application</h1>
+            <h1>Javascript Application</h1>            
         </header>
-        <section id="main-form">
-            <h2>Add Task</h2>
+    
+        <!-- This section contains the Add task functionality -->
+        <section id="main-section">          
             <div class="form-container">
+                <div class="title">Task Management Application</div>
                 <form>
-                    <input id="task-name" type="text" name="taskname" value="Task Name">
-                    <input id="task-desc" type="text" name="taskdesc" value="Description">
+                    <input id="task-name" type="text" name="taskname" placeholder="task name">                    
+                    <input id="task-desc" type="text" name="taskdesc" placeholder="description">
                     <input id="task-date" type="date" name="taskdate">
                     <input id="add-button" type="button" value="Add Task" onclick="addTask()">
                 </form>
             </div>            
         </section>
+
+        <!-- This section contains the Search task functionality -->
         <section id="filter-section">
-            <h2>Search Task</h2>
-            <input type="text" id="task-search" placeholder="Search for tasks..." />
-            <input type="radio" name="task-status" onchange="optFilter()" value="all" checked> All
-            <input type="radio" name="task-status" onchange="optFilter()" value="complete"> Completed
-            <input type="radio" name="task-status" onchange="optFilter()" value="incomplete"> Incomplete
+            <div class="filter-container">
+                <input type="text" id="task-search" oninput="inputFilter()" placeholder="Search for tasks..." />
+                <input type="radio" name="task-status" onchange="optFilter()" value="all" checked> All
+                <input type="radio" name="task-status" onchange="optFilter()" value="complete"> Completed
+                <input type="radio" name="task-status" onchange="optFilter()" value="incomplete"> Incomplete
+            </div>
         </section>
+
+        <!-- This section contains the Task list functionality -->
         <section id="tasks-section">
-            <h2>Task List</h2>
                 <table>
                     <thead>
                         <tr>
